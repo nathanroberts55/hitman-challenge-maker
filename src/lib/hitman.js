@@ -1,5 +1,4 @@
-// TODO(dylhack): Add thumbnails
-const MAPS = Object.freeze([
+export const MAPS = Object.freeze([
   { name: "Paris", targets: ["Viktor Novikov", "Dalia Margolis"] },
   { name: "Sapienza", targets: ["Silvio Caruso", "Francesca De Santis"] },
   { name: "Marrakesh", targets: ["Claus Hugo Strandberg", "Reza Zaydan"] },
@@ -22,30 +21,34 @@ const MAPS = Object.freeze([
   { name: "Carpathian Mountains", targets: ["Arthur Edwards"] },
 ])
 
-const DIFFICULTIES = Object.freeze([
+export const DIFFICULTIES = Object.freeze([
   "Casual",
   "Professional",
   "Master"
 ])
 
-const CHALLENGES = Object.freeze([
-  { name: "Silent Assassin", type: "boolean" },
-  { name: "Suit Only", type: "boolean" },
-  { name: "Sniper Assassin", type: "boolean" },
-  { name: "No Evidence", type: "boolean" },
-  { name: "Silent Assassin, Suit Only", type: "boolean" },
-  { name: "No Recordings", type: "boolean" },
-  { name: "Never Spotted", type: "boolean" },
-  { name: "No Bodies Found", type: "boolean" },
-  { name: "No Disguise Changes", type: "boolean" },
-  { name: "Poison Kill(s)", type: "numerical" },
-  { name: "Accident Kill(s)", type: "numerical" },
-  { name: "Explosive Kill(s)", type: "numerical" },
-  { name: "Target Only Kill(s)", type: "numerical" },
-  { name: "Fiber Wire Kill(s)", type: "numerical" },
+export const CHALLENGE_TYPE = Object.freeze({
+  BOOLEAN: "boolean",
+  NUMERICAL: "numerical"
+})
+
+export const CHALLENGES = Object.freeze([
+  { name: "Suit Only", type: CHALLENGE_TYPE.BOOLEAN },
+  { name: "No Evidence", type: CHALLENGE_TYPE.BOOLEAN },
+  { name: "No Recordings", type: CHALLENGE_TYPE.BOOLEAN },
+  { name: "Never Spotted", type: CHALLENGE_TYPE.BOOLEAN },
+  { name: "No Bodies Found", type: CHALLENGE_TYPE.BOOLEAN },
+  { name: "Silent Assassin", type: CHALLENGE_TYPE.BOOLEAN },
+  { name: "No Disguise Changes", type: CHALLENGE_TYPE.BOOLEAN },
+  { name: "Target Only Kills", type: CHALLENGE_TYPE.BOOLEAN },
+  { name: "Silent Assassin, Suit Only", type: CHALLENGE_TYPE.BOOLEAN },
+  { name: "Poison Kill(s)", type: CHALLENGE_TYPE.NUMERICAL },
+  { name: "Accident Kill(s)", type: CHALLENGE_TYPE.NUMERICAL },
+  { name: "Explosive Kill(s)", type: CHALLENGE_TYPE.NUMERICAL },
+  { name: "Fiber Wire Kill(s)", type: CHALLENGE_TYPE.NUMERICAL },
 ])
 
-const WEAPON_CATEGORIES = Object.freeze([
+export const WEAPON_CATEGORIES = Object.freeze([
   "Pistols",
   "Silenced Pistols",
   "Revolvers",
@@ -59,66 +62,71 @@ const WEAPON_CATEGORIES = Object.freeze([
   "Tools",
 ])
 
-function sample(array, n = 1) {
-  if (n > array.length) throw new Error('Sample size exceeds array length')
+export function _randomInt(max) {
+  return Math.floor(Math.random() * max)
+}
 
-  const result = new Set()
-  while (result.size < n) {
-    result.add(array[Math.floor(Math.random() * array.length)])
+/**
+ * @private for internal and testing
+ */
+export function _sample(array, n = 1, unique = true) {
+  const result = []
+  let i = 0
+  while (result.length < n && i < array.length) {
+    const item = array[_randomInt(array.length)]
+    if (unique) {
+      if (result.includes(item)) {
+        i += 1
+        continue
+      }
+    }
+
+    result.push(item)
+    i += 1
   }
 
-  return Array.from(result)
+  return unique ? Array.from(result) : result
 }
 
 export function randomMap() {
-  return sample(MAPS, 1)
+  return _sample(MAPS)[0]
 }
 
 export function randomDifficulty() {
-  return sample(DIFFICULTIES, 1)
+  return _sample(DIFFICULTIES)[0]
 }
 
 const numericalChallenges = []
 const nonNumericalChallenges = []
 CHALLENGES.forEach(challenge => {
-  if (challenge.type === 'numerical') {
+  if (challenge.type === CHALLENGE_TYPE.NUMERICAL) {
     numericalChallenges.push(challenge)
   } else {
     nonNumericalChallenges.push(challenge)
   }
 })
-export function randomChallenges(n) {
-  if (n === 1) {
-    return sample(CHALLENGES, n)
+
+export function randomChallenges(map, n) {
+  const numerical = {}
+  _sample(numericalChallenges, _randomInt(map.targets.length), false).forEach(challenge => {
+    if (numerical[challenge]) {
+      numerical[challenge].count += 1
+    } else {
+      numerical[challenge] = { ...challenge, count: 1 }
+    }
+  })
+
+  const result = Object.entries(numerical).map(([_, challenge]) => challenge)
+  if (result.length >= n) {
+    return result
   }
 
-  return [
-    ...sample(nonNumericalChallenges, n - 1),
-    sample(numericalChallenges)[0],
-  ]
+  _sample(nonNumericalChallenges, n - result.length).forEach(c => result.push(c))
+  return result
 }
 
 export function randomWeaponRestrictions(n) {
-  return sample(WEAPON_CATEGORIES, n)
-}
-
-export function describe(map, challenge) {
-  let description = ''
-
-  switch (challenge.type) {
-    case "boolean":
-      description = challenge.name
-      break
-    case "numerical":
-      let i = Math.floor(Math.random() * map.targets.length)
-      if (i === 0) i++
-      description = `${i} ${challenge.name}`
-      break
-    default:
-      throw new Error('Invalid challenge type')
-  }
-
-  return description
+  return _sample(WEAPON_CATEGORIES, n)
 }
 
 const DEFAULT_OPTIONS = Object.freeze({
@@ -126,12 +134,18 @@ const DEFAULT_OPTIONS = Object.freeze({
   weapons: 0
 })
 
-export function randomScenario(options) {
+export function randomScenario(options = DEFAULT_OPTIONS) {
   const nWeapons = options.weapons || DEFAULT_OPTIONS.weapons
   const nChallenges = options.challenges || DEFAULT_OPTIONS.challenges
-  const map = randomMap()[0]
-  const difficulty = randomDifficulty()[0]
-  const challenges = randomChallenges(nChallenges).map(challenge => describe(map, challenge))
+  const map = randomMap()
+  const difficulty = randomDifficulty()
+  const challenges = randomChallenges(map, nChallenges).map(c => {
+    if (c.type === CHALLENGE_TYPE.NUMERICAL) {
+      return `${c.count} ${c.name}`
+    } else {
+      return c.name
+    }
+  })
   const weapons = nWeapons === 0 ? ['Any weapons'] : randomWeaponRestrictions(nWeapons)
 
   return { map, difficulty, challenges, weapons }

@@ -38,7 +38,7 @@
 		padding: 12px;
 	}
 
-	footer a {
+	footer {
 		font-weight: bold;
 	}
 

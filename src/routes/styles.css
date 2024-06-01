@@ -7,5 +7,9 @@
 body {
 	min-height: 100vh;
 	margin: 0;
+	background-color: #22181C;
+	background-image: url("$lib/images/desktop_background.png");
+	background-size: cover;
+	background-repeat: no-repeat;
 }
 

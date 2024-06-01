@@ -8,7 +8,7 @@
 	</main>
 
 	<footer>
-		<p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
+		<p>King of the Kill &copy 2024</p>
 	</footer>
 </div>
 

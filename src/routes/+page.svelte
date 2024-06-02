@@ -1,6 +1,13 @@
 <script>
 	import * as hitman from '$lib/hitman';
 	export const maps = hitman.MAPS;
+
+	let selectedMap = maps[0].name; // default selection
+  	let mapThumbnail = `/maps/${selectedMap.toLowerCase().replace(/\s+/g, '-')}.jpg`;
+
+	function updateThumbnail(mapName) {
+		mapThumbnail = `/maps/${mapName.toLowerCase().replace(/\s+/g, '-')}.jpg`;
+	}
 </script>
 
 <svelte:head>
@@ -12,13 +19,14 @@
 	<div
 		class="max-w-sm rounded-xl overflow-hidden shadow-lg border-8 border-primary my-4 max-md:w-full max-md:h-[350px] lg:w-[395px] lg:h-[500px]"
 	>
-		<img src="/maps/miami.jpg" alt="Temp" class="object-cover h-full" />
+		<img id="mapThumbnail" src={mapThumbnail} alt="Temp" class="object-cover h-full" />
 	</div>
 	<select
 		name="MapSelect"
 		id="mapSelect"
 		placeholder="Select Map"
 		class="rounded-md bg-gray-500 text-white text-center h-8 w-3/4 mx-auto my-auto"
+		on:change={(e) => updateThumbnail(e.target.value)}
 	>
 		<option value="" disabled selected>Select Map</option>
 		{#each maps as map}

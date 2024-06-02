@@ -32,9 +32,8 @@
 			<Toggle label="Kill Challenge" name="kills" />
 			<Toggle label="Disguise Challenge" name="disguise" />
 		</div>
-		<div class="flex flex-row gap-4 absolute bottom-8 max-md:inset-x-16 inset-x-28 justify-items-center">
-			<button class="py-2 px-4 rounded-lg bg-blue-400 text-white text-xl">Start Challenge</button>
-			<a class="btn py-2 px-4 rounded-lg bg-blue-400 text-white" href="/challenge">
+		<div class="flex flex-row gap-4 absolute bottom-8 max-md:inset-x-10 inset-x-28 justify-items-center">
+			<a class="max-md:invisible btn py-2 px-4 rounded-lg bg-blue-400 text-white" href="/challenge">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					fill="none"
@@ -50,6 +49,7 @@
 					/>
 				</svg>
 			</a>
+			<button class="py-2 px-4 rounded-lg bg-blue-400 text-white max-md:text-2xl text-xl">Start Challenge</button>
 		</div>
 	</div>
 </div>

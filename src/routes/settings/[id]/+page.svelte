@@ -7,7 +7,7 @@
 	export let data;
 	const mapId = data.mapId;
 	const map = hitman.MAPS[mapId]
-	const style = `background-image: url('/maps/${map.name.toLowerCase().replace(/\s+/g, '-')}.jpg');`
+	const style = `background-image: url('/maps/${map.name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/\s+/g, '-').replace(/'/g, '').replace(/à|á|â|ã|ä/g, 'a')}.jpg');`
 </script>
 
 <svelte:head>

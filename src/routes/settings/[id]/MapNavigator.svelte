@@ -3,8 +3,8 @@
 	
 	export let mapId;
     const map = hitman.MAPS[mapId]
-    const nextMap = mapId + 2 > hitman.MAPS.length ? undefined : `/settings/${mapId + 1}` 
-	const prevMap = mapId - 1 < 0 ? undefined : `/settings/${mapId - 1}`
+    const nextMap = mapId + 2 > hitman.MAPS.length ? undefined : `/settings/${hitman.MAPS[mapId + 1].name}` 
+	const prevMap = mapId - 1 < 0 ? undefined : `/settings/${hitman.MAPS[mapId - 1].name}`
     const active = 'mb-8 my-auto py-3 px-4 h-12 rounded-lg bg-blue-400 text-white'
     const disabled = 'none'
 </script>

@@ -2,12 +2,13 @@
 	import MapNavigator from './MapNavigator.svelte';
 	import Toggle from '../../Toggle.svelte';
 	import * as hitman from '$lib/hitman';
+	import { formatMapName } from '../../../lib/formatMapName';
 	
 	/** @type {import('./$types').PageData} */
 	export let data;
 	const mapId = data.mapId;
 	const map = hitman.MAPS[mapId]
-	const style = `background-image: url('/maps/${map.name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/\s+/g, '-').replace(/'/g, '').replace(/à|á|â|ã|ä/g, 'a')}.jpg');`
+	const style = `background-image: url('/maps/${formatMapName(map.name)}.jpg');`
 </script>
 
 <svelte:head>

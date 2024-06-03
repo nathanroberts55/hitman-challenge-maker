@@ -19,6 +19,7 @@ export const MAPS = Object.freeze([
   { name: "Chongqing", targets: ["Hush", "Imogen Royce"] },
   { name: "Mendoza", targets: ["Tamara Vidal", "Don Archibald Yates"] },
   { name: "Carpathian Mountains", targets: ["Arthur Edwards"] },
+  { name: "Ambrose Island", targets: ["Nole Crest", "Sinhi Venthain"] },
 ])
 
 export const DIFFICULTIES = Object.freeze([

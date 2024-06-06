@@ -2,7 +2,7 @@
 	import MapNavigator from './MapNavigator.svelte';
 	import Toggle from '../../Toggle.svelte';
 	import * as hitman from '$lib/hitman';
-	import { formatMapName } from '../../../lib/formatMapName';
+	import { formatMapName } from '$lib/formatMapName';
 	
 	/** @type {import('./$types').PageData} */
 	export let data;

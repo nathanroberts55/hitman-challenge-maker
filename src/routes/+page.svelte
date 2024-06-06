@@ -1,12 +1,13 @@
 <script>
 	import * as hitman from '$lib/hitman';
+	import { formatMapName } from '$lib/formatMapName';
 	export const maps = hitman.MAPS;
 
 	let selectedMap = maps[0].name; // default selection
-  	let mapThumbnail = `/maps/${selectedMap.toLowerCase().replace(/\s+/g, '-')}.jpg`;
+  	let mapThumbnail = `/maps/${formatMapName(selectedMap)}.jpg`;
 
 	function updateThumbnail(mapName) {
-		mapThumbnail = `/maps/${mapName.toLowerCase().replace(/\s+/g, '-')}.jpg`;
+		mapThumbnail = `/maps/${formatMapName(mapName)}.jpg`;
 	}
 </script>
 

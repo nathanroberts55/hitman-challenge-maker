@@ -2,11 +2,15 @@
 export default {
 	content: ['./src/**/*.{html,js,svelte,ts}'],
 	theme: {
-		extend: {},
-		borderColor: (theme) => ({
-			...theme('colors'),
-			primary: '#F45B69'
-		})
+		extend: {
+			colors: { primary: '#F45B69' },
+			backgroundImage: {
+				miami: "url('$lib/images/miami.jpg')"
+			},
+			fontFamily: {
+				sans: ['"K2D"']
+			}
+		}
 	},
 	plugins: []
 };

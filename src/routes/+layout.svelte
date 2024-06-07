@@ -8,7 +8,7 @@
 	</main>
 
 	<footer>
-		<p>King of the Kill &copy 2024</p>
+		<p class="text-white">King of the Kill &copy 2024</p>
 	</footer>
 </div>
 

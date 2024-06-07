@@ -1,12 +1,14 @@
 <script>
-	import List from './List.svelte';
 	import * as hitman from '$lib/hitman';
+	import { formatMapName } from '$lib/formatMapName';
+	export const maps = hitman.MAPS;
 
-	const MAX_CHALLENGES = 5;
-	const { map, difficulty, challenges, weapons } = hitman.randomScenario({
-		weapons: 3,
-		challenges: Math.floor(Math.random() * MAX_CHALLENGES) + 1
-	});
+	let selectedMap = maps[0].name; // default selection
+  	let mapThumbnail = `/maps/${formatMapName(selectedMap)}.jpg`;
+
+	function updateThumbnail(mapName) {
+		mapThumbnail = `/maps/${formatMapName(mapName)}.jpg`;
+	}
 </script>
 
 <svelte:head>
@@ -14,21 +16,23 @@
 	<meta name="description" content="King of the Kill" />
 </svelte:head>
 
-
-<div class="flex max-md:flex-col gap-4 my-auto mx-auto">
-	<div class="max-w-sm rounded-xl overflow-hidden shadow-lg border-8 border-primary max-md:w-full max-md:h-[350px] lg:w-[395px] lg:h-[600px]">
-		<!-- Map Image -->
-		<!-- Placeholder Image -->
-		<img src="https://cdna.artstation.com/p/assets/images/images/014/447/884/large/alex-jareno-elite3d-hitman2-miami-06.jpg?1544010665" alt="Temp" class="object-cover h-full">
+<div class="flex flex-col gap-4 my-auto mx-auto">
+	<div
+		class="max-w-sm rounded-xl overflow-hidden shadow-lg border-8 border-primary my-4 max-md:w-full max-md:h-[350px] lg:w-[395px] lg:h-[500px]"
+	>
+		<img id="mapThumbnail" src={mapThumbnail} alt="Temp" class="object-cover h-full" />
 	</div>
-	<div class="max-w-sm rounded-xl overflow-hidden shadow-lg bg-white max-md:w-full lg:w-[395px] lg:h-[600px] p-8">
-		<h1 class="text-5xl font-bold underline">{map.name}</h1>
-		<div class="flex flex-col gap-3">
-			<p class="font-bold">Difficulty: {difficulty}</p>
-			<List name="Targets" items={map.targets} />
-			<List name="Challenge" items={challenges} />
-			<List name="Weapons" items={weapons} />
-		</div>
-	</div>
+	<select
+		name="MapSelect"
+		id="mapSelect"
+		placeholder="Select Map"
+		class="rounded-md bg-gray-500 text-white text-center h-8 w-3/4 mx-auto my-auto"
+		on:change={(e) => updateThumbnail(e.target.value)}
+	>
+		<option value="" disabled selected>Select Map</option>
+		{#each maps as map}
+			<option value={map.name}>{map.name}</option>
+		{/each}
+	</select>
 </div>
 

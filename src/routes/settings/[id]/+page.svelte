@@ -31,9 +31,7 @@
 			<div class="space-y-4 px-4">
 				<Toggle label="Weapons Challenge" name="weapons" />
 				<Toggle label="Time Challenge" name="time" />
-				<!-- <Toggle label="Traversal Challenge" name="traversal" /> -->
 				<Toggle label="Kill Challenge" name="kills" />
-				<!-- <Toggle label="Disguise Challenge" name="disguise" /> -->
 				<Toggle label="Custom Challenge" name="custom" />
 				<input class="hidden" name="map" type="text" value={map.name} />
 			</div>

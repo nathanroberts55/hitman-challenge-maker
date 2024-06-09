@@ -36,16 +36,6 @@
 		<p class="text-4xl text-white my-8">Challenge Started</p>
 		<div class="max-w-sm rounded-2xl px-2 py-2 overflow-hidden shadow-lg bg-[#151515] mx-4">
 			<div class="flex flex-col space-y-2 text-white">
-				<!-- <p class="font-bold text-center">Difficulty: {difficulty}</p> -->
-
-				<!-- <List name="Targets" items={map.targets} />
-				{#if data.killsVal == true}
-					<List name="Challenge" items={challenges} />
-				{/if}
-				{#if data.weaponsVal == true}
-					<List name="Weapons" items={weapons} />
-				{/if} -->
-
 				<p class="text-white text-4xl">{prompt}</p>
 			</div>
 		</div>

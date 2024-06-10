@@ -5,7 +5,7 @@ export default {
 		extend: {
 			colors: { primary: '#F45B69' },
 			backgroundImage: {
-				miami: "url('$lib/images/miami.jpg')"
+				'hitman-image': "url('/hitman.jpg')"
 			},
 			fontFamily: {
 				sans: ['"K2D"']

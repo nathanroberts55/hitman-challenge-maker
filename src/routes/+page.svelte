@@ -4,7 +4,7 @@
 	export const maps = hitman.MAPS;
 
 	let selectedMap = maps[0].name; // default selection
-  	let mapThumbnail = `/maps/${formatMapName(selectedMap)}.jpg`;
+	let mapThumbnail = `/maps/${formatMapName(selectedMap)}.jpg`;
 
 	function updateThumbnail(mapName) {
 		mapThumbnail = `/maps/${formatMapName(mapName)}.jpg`;
@@ -16,9 +16,9 @@
 	<meta name="description" content="King of the Kill" />
 </svelte:head>
 
-<div class="flex flex-col gap-4 my-auto mx-auto">
+<div class="flex flex-col items-center my-auto">
 	<div
-		class="max-w-sm rounded-xl overflow-hidden shadow-lg border-8 border-primary my-4 max-md:w-full max-md:h-[350px] lg:w-[395px] lg:h-[500px]"
+		class="max-w-sm rounded-2xl overflow-hidden shadow-lg border-8 border-primary my-4 max-md:w-full max-md:h-[350px] lg:w-[395px] lg:h-[500px]"
 	>
 		<img id="mapThumbnail" src={mapThumbnail} alt="Temp" class="object-cover h-full" />
 	</div>
@@ -26,7 +26,7 @@
 		name="MapSelect"
 		id="mapSelect"
 		placeholder="Select Map"
-		class="rounded-md bg-gray-500 text-white text-center h-8 w-3/4 mx-auto my-auto"
+		class="rounded-md bg-gray-500 text-white text-center px-12 py-1"
 		on:change={(e) => updateThumbnail(e.target.value)}
 	>
 		<option value="" disabled selected>Select Map</option>
@@ -35,4 +35,3 @@
 		{/each}
 	</select>
 </div>
-
